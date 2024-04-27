@@ -29,7 +29,11 @@ RUN apt-get update && apt-get install -y --allow-downgrades --allow-change-held-
         libjpeg-dev \
         libpng-dev \
         sudo \
-        htop
+        htop \
+        ffmpeg \
+        libsm6 \
+        libxext6 \
+        libgl1-mesa-glx
 
 # Set up user
 RUN --mount=type=secret,id=my_env source /run/secrets/my_env && \
@@ -99,5 +103,6 @@ COPY ./docker/entrypoint.sh .
 # RUN echo ${USER_NAME} | sudo -S chown --reference=${HOME}/.bashrc ./entrypoint.sh
 # RUN chmod +x ./entrypoint.sh
 
-ENTRYPOINT ["./entrypoint.sh"]
+# ENTRYPOINT ["./entrypoint.sh"]
 # ENTRYPOINT [ "sleep", "infinity" ]
+ENTRYPOINT ["/usr/sbin/sshd", "-D"] 
