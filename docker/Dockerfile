@@ -103,6 +103,9 @@ COPY ./docker/entrypoint.sh .
 # RUN echo ${USER_NAME} | sudo -S chown --reference=${HOME}/.bashrc ./entrypoint.sh
 # RUN chmod +x ./entrypoint.sh
 
+RUN --mount=type=secret,id=my_env source /run/secrets/my_env && \
+    chown -R ${USER_NAME}:${GROUP_NAME} ${HOME}
+
 # ENTRYPOINT ["./entrypoint.sh"]
 # ENTRYPOINT [ "sleep", "infinity" ]
 ENTRYPOINT ["/usr/sbin/sshd", "-D"] 
