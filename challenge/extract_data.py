@@ -1,7 +1,8 @@
 import json
 import os
 import re
-
+import argparse
+import pathlib
 
 def extract_data(root_path, save_path):
 
@@ -133,9 +134,15 @@ def extract_data(root_path, save_path):
         json.dump(test_data, f, indent=4)
 
 if __name__ == "__main__":
-    # extract the data from the training json file
-    root_path = "data/train_sample.json"
-    save_path = "test.json"
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("-i", "--input-path", type=str, default="/mnt/nlpdata1/home/ismayilz/cs503-project/data/train/nuscenes/v1_1_train_nus.json", help="Input data path")
+
+    args = parser.parse_args()
+
+    root_path = pathlib.Path(args.input_path)
+    save_path = root_path.with_name(f"{root_path.stem}_ext{root_path.suffix}")
+
     extract_data(root_path, save_path)
 
     
